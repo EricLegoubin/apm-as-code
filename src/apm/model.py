@@ -103,10 +103,11 @@ class Catalog:
         return cat
 
     def _rel(self, path: Path) -> str:
+        # Séparateur « / » sur tous les OS : annotations CI, CODEOWNERS et site restent identiques.
         try:
-            return str(path.relative_to(self.root.parent))
+            return path.relative_to(self.root.parent).as_posix()
         except ValueError:
-            return str(path)
+            return path.as_posix()
 
     def _add(self, rule_id: str, file: str, line: int | None, app: str | None, message: str) -> None:
         self.load_findings.append(Finding(file, line or 0, rule_id, message, RULES[rule_id].severity, app))
