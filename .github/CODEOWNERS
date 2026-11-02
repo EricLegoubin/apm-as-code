@@ -1,0 +1,14 @@
+# Le modèle et l'outillage : équipe d'architecture
+/schemas/              @nickel/architecture
+/src/                  @nickel/architecture
+/docs/                 @nickel/architecture
+/catalog/referentials/ @nickel/architecture
+
+# Les fiches : la tribe propriétaire (une ligne par application)
+/catalog/applications/app-tenue-compte/       @nickel/tribe-compte
+/catalog/applications/app-espace-client/      @nickel/tribe-compte
+/catalog/applications/app-epargne/            @nickel/tribe-compte
+/catalog/applications/app-paiement-carte/     @nickel/tribe-paiement
+/catalog/applications/app-kyc/                @nickel/tribe-onboarding
+/catalog/applications/app-ouverture-compte/   @nickel/tribe-onboarding
+/catalog/applications/app-terminal-buraliste/ @nickel/tribe-reseau

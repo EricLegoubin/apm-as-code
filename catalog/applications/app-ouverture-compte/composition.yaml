@@ -1,0 +1,8 @@
+# yaml-language-server: $schema=../../../schemas/composition.schema.json
+components:
+  - id: cmp-oc-parcours
+    name: Parcours de souscription
+    type: frontend
+  - id: cmp-oc-orchestrateur
+    name: Orchestrateur d'ouverture
+    type: backend

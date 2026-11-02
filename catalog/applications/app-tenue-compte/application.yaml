@@ -1,0 +1,21 @@
+# yaml-language-server: $schema=../../../schemas/application.schema.json
+id: app-tenue-compte
+name: Tenue de compte
+aliases: [Core banking, TDC]
+external_refs:
+  - system: servicenow
+    ref: APM0001001
+summary: Tient les comptes clients — soldes, opérations, écritures et relevés.
+description: |
+  Système de référence des comptes. Expose les opérations de compte aux autres
+  applications et publie les événements de mouvement. Le batch de fin de journée
+  produit les écritures comptables et les relevés.
+capabilities: [cap-tenue-compte, cap-especes]
+lifecycle: run
+organisation:
+  owner: org-tribe-compte
+  maintainer: org-tribe-compte
+  operator: org-team-exploitation
+links:
+  - label: Runbook
+    url: https://wiki.example.org/tenue-compte/runbook

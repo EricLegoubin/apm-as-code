@@ -1,0 +1,14 @@
+# yaml-language-server: $schema=../../../schemas/application.schema.json
+id: app-terminal-buraliste
+name: Terminal buraliste
+aliases: [TPV, Terminal point de vente]
+external_refs:
+  - system: servicenow
+    ref: APM0001006
+summary: Terminal et passerelle qui permettent au buraliste d'ouvrir des comptes et d'encaisser dépôts et retraits.
+capabilities: [cap-point-de-vente]
+lifecycle: run
+organisation:
+  owner: org-tribe-reseau
+  maintainer: org-tribe-reseau
+  operator: org-team-exploitation

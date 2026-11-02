@@ -1,0 +1,8 @@
+# yaml-language-server: $schema=../../../schemas/interfaces.schema.json
+consumes:
+  - interface: itf-compte-api
+    component: cmp-ec-bff
+    purpose: Solde, opérations, gel de compte par le client
+  - interface: itf-carte-api
+    component: cmp-ec-bff
+    purpose: Opposition et plafonds carte

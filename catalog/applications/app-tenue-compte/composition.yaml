@@ -1,0 +1,19 @@
+# yaml-language-server: $schema=../../../schemas/composition.schema.json
+components:
+  - id: cmp-tc-api
+    name: API de tenue de compte
+    type: backend
+    repository: https://git.example.org/compte/tc-api
+  - id: cmp-tc-batch
+    name: Batch de fin de journée
+    type: batch
+  - id: cmp-tc-db
+    name: Base des comptes
+    type: database
+solutions:
+  - solution: sol-postgresql
+    usage: Base des comptes
+  - solution: sol-kafka
+    usage: Publication des événements de mouvement
+  - solution: sol-gke
+    usage: Hébergement de l'API

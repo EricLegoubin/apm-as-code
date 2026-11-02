@@ -1,0 +1,51 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "organisation.schema.json",
+  "title": "Unités d'organisation",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "units": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^org-[a-z0-9]+(-[a-z0-9]+)*$"
+          },
+          "name": {
+            "type": "string",
+            "minLength": 1
+          },
+          "type": {
+            "enum": [
+              "direction",
+              "tribe",
+              "team",
+              "vendor"
+            ]
+          },
+          "parent": {
+            "type": "string",
+            "pattern": "^org-[a-z0-9]+(-[a-z0-9]+)*$"
+          },
+          "contact": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "type"
+        ]
+      },
+      "minItems": 1
+    }
+  },
+  "required": [
+    "units"
+  ]
+}

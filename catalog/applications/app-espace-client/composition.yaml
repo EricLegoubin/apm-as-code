@@ -1,0 +1,14 @@
+# yaml-language-server: $schema=../../../schemas/composition.schema.json
+components:
+  - id: cmp-ec-mobile
+    name: Application mobile
+    type: mobile
+  - id: cmp-ec-web
+    name: Espace web
+    type: frontend
+  - id: cmp-ec-bff
+    name: Backend for frontend
+    type: backend
+solutions:
+  - solution: sol-gke
+    usage: Hébergement du BFF

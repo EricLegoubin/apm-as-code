@@ -1,0 +1,42 @@
+# yaml-language-server: $schema=../../schemas/capabilities.schema.json
+capabilities:
+  - id: cap-relation-client
+    name: Relation client
+  - id: cap-entree-en-relation
+    name: Entrée en relation
+    parent: cap-relation-client
+    description: Souscription et ouverture du compte, en point de vente ou en ligne.
+  - id: cap-connaissance-client
+    name: Connaissance client (KYC)
+    parent: cap-relation-client
+    description: Vérification d'identité et de conformité du client.
+  - id: cap-selfcare
+    name: Self-care client
+    parent: cap-relation-client
+    description: Consultation et gestion autonomes du compte et de la carte.
+  - id: cap-compte
+    name: Gestion du compte
+  - id: cap-tenue-compte
+    name: Tenue de compte
+    parent: cap-compte
+    description: Soldes, opérations, écritures, relevés.
+  - id: cap-epargne
+    name: Épargne
+    parent: cap-compte
+  - id: cap-especes
+    name: Dépôt et retrait d'espèces
+    parent: cap-compte
+  - id: cap-paiement
+    name: Paiement
+  - id: cap-autorisation-carte
+    name: Autorisation des paiements carte
+    parent: cap-paiement
+  - id: cap-gestion-carte
+    name: Gestion du cycle de vie carte
+    parent: cap-paiement
+    description: Commande, activation, opposition, plafonds.
+  - id: cap-distribution
+    name: Distribution
+  - id: cap-point-de-vente
+    name: Opérations en point de vente
+    parent: cap-distribution

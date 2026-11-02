@@ -1,0 +1,9 @@
+# yaml-language-server: $schema=../../../schemas/releases.schema.json
+components:
+  cmp-tb-passerelle:
+    - version: 2.3.0
+  cmp-tb-terminal:
+    - version: 11.2.0
+application:
+  - version: "2.3"
+    components: {cmp-tb-passerelle: 2.3.0, cmp-tb-terminal: 11.2.0}

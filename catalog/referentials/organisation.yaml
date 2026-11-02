@@ -1,0 +1,39 @@
+# yaml-language-server: $schema=../../schemas/organisation.schema.json
+units:
+  - id: org-dsi
+    name: DSI
+    type: direction
+  - id: org-direction-produit
+    name: Direction Produit
+    type: direction
+  - id: org-tribe-compte
+    name: Tribe Compte
+    type: tribe
+    parent: org-direction-produit
+  - id: org-tribe-paiement
+    name: Tribe Paiement
+    type: tribe
+    parent: org-direction-produit
+  - id: org-tribe-onboarding
+    name: Tribe Onboarding
+    type: tribe
+    parent: org-direction-produit
+  - id: org-tribe-reseau
+    name: Tribe Réseau
+    type: tribe
+    parent: org-direction-produit
+  - id: org-team-plateforme
+    name: Équipe Plateforme
+    type: team
+    parent: org-dsi
+  - id: org-team-exploitation
+    name: Équipe Exploitation
+    type: team
+    parent: org-dsi
+    contact: exploitation@example.org
+  - id: org-vendor-monetique
+    name: Processeur monétique (éditeur)
+    type: vendor
+  - id: org-vendor-terminaux
+    name: Fabricant de terminaux (éditeur)
+    type: vendor

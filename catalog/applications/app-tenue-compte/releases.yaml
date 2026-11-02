@@ -1,0 +1,25 @@
+# yaml-language-server: $schema=../../../schemas/releases.schema.json
+components:
+  cmp-tc-api:
+    - version: 3.2.0
+    - version: 3.3.0
+      summary: Gel et dégel de compte
+    - version: 3.4.0
+      summary: Plafonds de dépôt d'espèces paramétrables
+  cmp-tc-batch:
+    - version: 1.4.0
+    - version: 1.5.0
+      summary: Relevés au format PDF/A
+  cmp-tc-db:
+    - version: 12.0.0
+    - version: 13.0.0
+      summary: Statut de gel sur le compte
+application:
+  - version: "2026.9"
+    components: {cmp-tc-api: 3.2.0, cmp-tc-batch: 1.4.0, cmp-tc-db: 12.0.0}
+  - version: "2026.11"
+    summary: Gel de compte
+    components: {cmp-tc-api: 3.3.0, cmp-tc-batch: 1.4.0, cmp-tc-db: 13.0.0}
+  - version: "2027.1"
+    summary: Plafonds espèces, relevés PDF/A
+    components: {cmp-tc-api: 3.4.0, cmp-tc-batch: 1.5.0, cmp-tc-db: 13.0.0}

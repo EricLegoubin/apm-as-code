@@ -1,0 +1,26 @@
+# yaml-language-server: $schema=../../../schemas/releases.schema.json
+components:
+  cmp-oc-orchestrateur:
+    - version: 7.0.0
+    - version: 7.1.0
+      summary: Bascule sur la vérification biométrique
+      requires:
+        - component: cmp-kyc-connecteur
+          version: ">=2.0"
+  cmp-oc-parcours:
+    - version: 7.0.0
+    - version: 7.1.0
+    - version: 7.2.0
+      summary: Parcours en ligne simplifié
+application:
+  - version: "7.0"
+    components: {cmp-oc-orchestrateur: 7.0.0, cmp-oc-parcours: 7.0.0}
+  - version: "7.1"
+    summary: Vérification biométrique
+    components: {cmp-oc-orchestrateur: 7.1.0, cmp-oc-parcours: 7.1.0}
+    requires:
+      - application: app-kyc
+        version: ">=2.0"
+  - version: "7.2"
+    summary: Parcours en ligne simplifié
+    components: {cmp-oc-orchestrateur: 7.1.0, cmp-oc-parcours: 7.2.0}

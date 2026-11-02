@@ -1,0 +1,11 @@
+# yaml-language-server: $schema=../../../schemas/application.schema.json
+id: app-ouverture-compte
+name: Ouverture de compte
+aliases: [Onboarding]
+summary: Parcours de souscription en point de vente et en ligne, jusqu'à la création du compte et la commande de carte.
+capabilities: [cap-entree-en-relation]
+lifecycle: run
+organisation:
+  owner: org-tribe-onboarding
+  maintainer: org-tribe-onboarding
+  operator: org-team-plateforme

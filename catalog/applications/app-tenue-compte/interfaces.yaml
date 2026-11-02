@@ -1,0 +1,14 @@
+# yaml-language-server: $schema=../../../schemas/interfaces.schema.json
+provides:
+  - id: itf-compte-api
+    name: API Compte
+    component: cmp-tc-api
+    type: api
+    protocol: REST/HTTPS
+    description: Consultation de solde, opérations, débit/crédit, gel de compte.
+  - id: itf-compte-evenements
+    name: Événements de mouvement
+    component: cmp-tc-api
+    type: event
+    protocol: Kafka
+    description: Un événement par opération comptabilisée.

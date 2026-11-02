@@ -1,0 +1,5 @@
+# yaml-language-server: $schema=../../../schemas/interfaces.schema.json
+consumes:
+  - interface: itf-compte-api
+    component: cmp-tb-passerelle
+    purpose: Dépôt et retrait d'espèces

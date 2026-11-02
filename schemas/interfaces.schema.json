@@ -1,0 +1,135 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "interfaces.schema.json",
+  "title": "Interfaces d'une application",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "provides": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^itf-[a-z0-9]+(-[a-z0-9]+)*$"
+          },
+          "name": {
+            "type": "string",
+            "minLength": 1
+          },
+          "component": {
+            "type": "string",
+            "pattern": "^cmp-[a-z0-9]+(-[a-z0-9]+)*$"
+          },
+          "type": {
+            "enum": [
+              "api",
+              "event",
+              "file",
+              "database",
+              "ui"
+            ]
+          },
+          "protocol": {
+            "type": "string",
+            "minLength": 1
+          },
+          "description": {
+            "type": "string",
+            "minLength": 1
+          },
+          "external_consumers": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "uniqueItems": true
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "component",
+          "type"
+        ]
+      }
+    },
+    "consumes": {
+      "type": "array",
+      "items": {
+        "oneOf": [
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "interface": {
+                "type": "string",
+                "pattern": "^itf-[a-z0-9]+(-[a-z0-9]+)*$"
+              },
+              "component": {
+                "type": "string",
+                "pattern": "^cmp-[a-z0-9]+(-[a-z0-9]+)*$"
+              },
+              "purpose": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "required": [
+              "interface",
+              "component"
+            ]
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "external": {
+                "type": "string",
+                "minLength": 1
+              },
+              "component": {
+                "type": "string",
+                "pattern": "^cmp-[a-z0-9]+(-[a-z0-9]+)*$"
+              },
+              "direction": {
+                "enum": [
+                  "in",
+                  "out",
+                  "both"
+                ]
+              },
+              "type": {
+                "enum": [
+                  "api",
+                  "event",
+                  "file",
+                  "database",
+                  "ui"
+                ]
+              },
+              "protocol": {
+                "type": "string",
+                "minLength": 1
+              },
+              "purpose": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "required": [
+              "external",
+              "component",
+              "direction",
+              "type"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "required": []
+}

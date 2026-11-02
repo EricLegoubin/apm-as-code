@@ -1,0 +1,8 @@
+# yaml-language-server: $schema=../../../schemas/composition.schema.json
+components:
+  - id: cmp-kyc-connecteur
+    name: Connecteur de vérification
+    type: integration
+solutions:
+  - solution: sol-verification-identite
+    usage: Contrôle documentaire et biométrique

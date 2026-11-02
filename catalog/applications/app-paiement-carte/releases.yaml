@@ -1,0 +1,22 @@
+# yaml-language-server: $schema=../../../schemas/releases.schema.json
+components:
+  cmp-pc-autorisation:
+    - version: 4.1.0
+    - version: 4.2.0
+      summary: Refus des autorisations sur compte gelé
+      requires:
+        - component: cmp-tc-api
+          version: ">=3.3"
+  cmp-pc-cartes:
+    - version: 2.0.0
+    - version: 2.1.0
+      summary: Opposition temporaire
+application:
+  - version: "4.1"
+    components: {cmp-pc-autorisation: 4.1.0, cmp-pc-cartes: 2.0.0}
+  - version: "4.2"
+    summary: Gel de compte, opposition temporaire
+    components: {cmp-pc-autorisation: 4.2.0, cmp-pc-cartes: 2.1.0}
+    requires:
+      - application: app-tenue-compte
+        version: ">=2026.11"

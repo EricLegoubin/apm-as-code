@@ -1,0 +1,11 @@
+# yaml-language-server: $schema=../../../schemas/interfaces.schema.json
+consumes:
+  - interface: itf-kyc-verification
+    component: cmp-oc-orchestrateur
+    purpose: Vérification d'identité du souscripteur
+  - interface: itf-compte-api
+    component: cmp-oc-orchestrateur
+    purpose: Création du compte
+  - interface: itf-carte-api
+    component: cmp-oc-orchestrateur
+    purpose: Commande de la carte

@@ -1,0 +1,13 @@
+# yaml-language-server: $schema=../../../schemas/interfaces.schema.json
+provides:
+  - id: itf-kyc-verification
+    name: API Vérification d'identité
+    component: cmp-kyc-connecteur
+    type: api
+    protocol: REST/HTTPS
+consumes:
+  - external: Prestataire KYC
+    component: cmp-kyc-connecteur
+    direction: out
+    type: api
+    protocol: REST/HTTPS

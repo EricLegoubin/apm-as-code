@@ -1,0 +1,26 @@
+# yaml-language-server: $schema=../../../schemas/releases.schema.json
+components:
+  cmp-ec-bff:
+    - version: 5.0.0
+    - version: 5.1.0
+      summary: Gel de compte et opposition temporaire
+      requires:
+        - component: cmp-pc-cartes
+          version: ">=2.1"
+  cmp-ec-mobile:
+    - version: 8.3.0
+    - version: 8.4.0
+  cmp-ec-web:
+    - version: 2.6.0
+    - version: 2.7.0
+application:
+  - version: "2026.10"
+    components: {cmp-ec-bff: 5.0.0, cmp-ec-mobile: 8.3.0, cmp-ec-web: 2.6.0}
+  - version: "2026.12"
+    summary: Le client gèle son compte et met sa carte en opposition temporaire
+    components: {cmp-ec-bff: 5.1.0, cmp-ec-mobile: 8.4.0, cmp-ec-web: 2.7.0}
+    requires:
+      - application: app-paiement-carte
+        version: ">=4.2"
+      - application: app-tenue-compte
+        version: ">=2026.11"

@@ -1,0 +1,12 @@
+# yaml-language-server: $schema=../../../schemas/releases.schema.json
+components:
+  cmp-kyc-connecteur:
+    - version: 1.8.0
+    - version: 2.0.0
+      summary: Vérification biométrique
+application:
+  - version: "1.8"
+    components: {cmp-kyc-connecteur: 1.8.0}
+  - version: "2.0"
+    summary: Vérification biométrique
+    components: {cmp-kyc-connecteur: 2.0.0}

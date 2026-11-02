@@ -1,0 +1,73 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "composition.schema.json",
+  "title": "Composition d'une application",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "components": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^cmp-[a-z0-9]+(-[a-z0-9]+)*$"
+          },
+          "name": {
+            "type": "string",
+            "minLength": 1
+          },
+          "type": {
+            "enum": [
+              "frontend",
+              "mobile",
+              "backend",
+              "batch",
+              "database",
+              "integration",
+              "library",
+              "other"
+            ]
+          },
+          "description": {
+            "type": "string",
+            "minLength": 1
+          },
+          "repository": {
+            "type": "string",
+            "pattern": "^https?://"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "type"
+        ]
+      }
+    },
+    "solutions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "solution": {
+            "type": "string",
+            "pattern": "^sol-[a-z0-9]+(-[a-z0-9]+)*$"
+          },
+          "usage": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "solution",
+          "usage"
+        ]
+      }
+    }
+  },
+  "required": []
+}

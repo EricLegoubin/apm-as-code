@@ -1,0 +1,18 @@
+# yaml-language-server: $schema=../../../schemas/interfaces.schema.json
+provides:
+  - id: itf-carte-api
+    name: API Carte
+    component: cmp-pc-cartes
+    type: api
+    protocol: REST/HTTPS
+    description: Commande, activation, opposition, plafonds.
+consumes:
+  - interface: itf-compte-api
+    component: cmp-pc-autorisation
+    purpose: Contrôle de solde et débit à l'autorisation
+  - external: Processeur monétique
+    component: cmp-pc-autorisation
+    direction: both
+    type: api
+    protocol: ISO 8583 sur TLS
+    purpose: Demandes et réponses d'autorisation

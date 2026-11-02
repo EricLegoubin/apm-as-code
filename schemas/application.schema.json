@@ -1,0 +1,130 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "application.schema.json",
+  "title": "Fiche d'application",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^app-[a-z0-9]+(-[a-z0-9]+)*$"
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1
+    },
+    "aliases": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "uniqueItems": true
+    },
+    "external_refs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "system": {
+            "type": "string",
+            "minLength": 1
+          },
+          "ref": {
+            "type": "string",
+            "minLength": 1
+          },
+          "url": {
+            "type": "string",
+            "pattern": "^https?://"
+          }
+        },
+        "required": [
+          "system",
+          "ref"
+        ]
+      }
+    },
+    "summary": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 200,
+      "description": "Une phrase : ce que fait l'application, pour qui"
+    },
+    "description": {
+      "type": "string",
+      "minLength": 1
+    },
+    "capabilities": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^cap-[a-z0-9]+(-[a-z0-9]+)*$"
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "lifecycle": {
+      "enum": [
+        "planned",
+        "build",
+        "run",
+        "retiring",
+        "retired"
+      ]
+    },
+    "organisation": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "owner": {
+          "type": "string",
+          "pattern": "^org-[a-z0-9]+(-[a-z0-9]+)*$"
+        },
+        "maintainer": {
+          "type": "string",
+          "pattern": "^org-[a-z0-9]+(-[a-z0-9]+)*$"
+        },
+        "operator": {
+          "type": "string",
+          "pattern": "^org-[a-z0-9]+(-[a-z0-9]+)*$"
+        }
+      },
+      "required": [
+        "owner",
+        "maintainer",
+        "operator"
+      ]
+    },
+    "links": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "label": {
+            "type": "string",
+            "minLength": 1
+          },
+          "url": {
+            "type": "string",
+            "pattern": "^https?://"
+          }
+        },
+        "required": [
+          "label",
+          "url"
+        ]
+      }
+    }
+  },
+  "required": [
+    "id",
+    "name",
+    "summary",
+    "capabilities",
+    "lifecycle",
+    "organisation"
+  ]
+}

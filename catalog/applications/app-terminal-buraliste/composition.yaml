@@ -1,0 +1,11 @@
+# yaml-language-server: $schema=../../../schemas/composition.schema.json
+components:
+  - id: cmp-tb-terminal
+    name: Logiciel du terminal
+    type: other
+  - id: cmp-tb-passerelle
+    name: Passerelle terminaux
+    type: backend
+solutions:
+  - solution: sol-terminal-pdv
+    usage: Matériel et système du terminal

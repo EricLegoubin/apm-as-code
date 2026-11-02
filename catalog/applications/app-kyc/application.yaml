@@ -1,0 +1,11 @@
+# yaml-language-server: $schema=../../../schemas/application.schema.json
+id: app-kyc
+name: Vérification d'identité
+aliases: [KYC]
+summary: Vérifie l'identité des clients à l'ouverture et lors des revues périodiques.
+capabilities: [cap-connaissance-client]
+lifecycle: run
+organisation:
+  owner: org-tribe-onboarding
+  maintainer: org-tribe-onboarding
+  operator: org-team-exploitation

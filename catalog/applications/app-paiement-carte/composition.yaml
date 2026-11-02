@@ -1,0 +1,15 @@
+# yaml-language-server: $schema=../../../schemas/composition.schema.json
+components:
+  - id: cmp-pc-autorisation
+    name: Moteur d'autorisation
+    type: backend
+  - id: cmp-pc-cartes
+    name: Gestion des cartes
+    type: backend
+solutions:
+  - solution: sol-processeur-monetique
+    usage: Processing et compensation des transactions
+  - solution: sol-postgresql
+    usage: Référentiel des cartes
+  - solution: sol-gke
+    usage: Hébergement

@@ -1,0 +1,14 @@
+# yaml-language-server: $schema=../../../schemas/application.schema.json
+id: app-espace-client
+name: Espace client
+aliases: [App Nickel, Espace web]
+external_refs:
+  - system: servicenow
+    ref: APM0001003
+summary: Application mobile et site web qui permettent au client de consulter et gérer son compte et sa carte.
+capabilities: [cap-selfcare]
+lifecycle: run
+organisation:
+  owner: org-tribe-compte
+  maintainer: org-tribe-compte
+  operator: org-team-plateforme

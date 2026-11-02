@@ -1,0 +1,5 @@
+# yaml-language-server: $schema=../../../schemas/planning.schema.json
+releases:
+  - version: "2.3"
+    date: 2026-07-01
+    status: delivered

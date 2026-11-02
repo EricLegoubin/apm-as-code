@@ -1,0 +1,28 @@
+# yaml-language-server: $schema=../../schemas/solutions.schema.json
+solutions:
+  - id: sol-postgresql
+    name: PostgreSQL
+    type: software
+    url: https://www.postgresql.org
+  - id: sol-kafka
+    name: Apache Kafka
+    type: middleware
+    url: https://kafka.apache.org
+  - id: sol-gke
+    name: Google Kubernetes Engine
+    vendor: Google Cloud
+    type: infrastructure
+  - id: sol-processeur-monetique
+    name: Plateforme de processing monétique
+    vendor: Processeur monétique (éditeur)
+    type: saas
+    description: Autorisation et compensation des transactions carte.
+  - id: sol-verification-identite
+    name: Service de vérification d'identité
+    vendor: Prestataire KYC
+    type: saas
+    description: Contrôle documentaire et biométrique.
+  - id: sol-terminal-pdv
+    name: Terminal de point de vente
+    vendor: Fabricant de terminaux (éditeur)
+    type: software
