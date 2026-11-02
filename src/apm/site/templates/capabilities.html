@@ -1,0 +1,16 @@
+{% extends "base.html" %}{% from "_macros.html" import app_link %}
+{% block title %}Capacités{% endblock %}
+{% block content %}
+<h1>Capacités</h1>
+<p class="sub">Carte des capacités et applications qui les réalisent.</p>
+{% set by = v.apps_by_capability() %}
+{% macro node(n) %}
+<li id="{{ n.item.id }}"><b>{{ n.item.name }}</b> <span class="mono small muted">{{ n.item.id }}</span>
+{% if n.item.description %}<br><span class="small muted">{{ n.item.description }}</span>{% endif %}
+{% if by[n.item.id] %}<div class="apps">{% for a in by[n.item.id]|sort(attribute='name') %}<span class="chip">{{ app_link(a.id, '') }}</span>{% endfor %}</div>
+{% elif not n.children %}<div class="apps small muted">aucune application</div>{% endif %}
+{% if n.children %}<ul class="tree">{% for c in n.children %}{{ node(c) }}{% endfor %}</ul>{% endif %}
+</li>
+{% endmacro %}
+<div class="panel"><ul class="tree root">{% for n in v.tree(cat.capabilities) %}{{ node(n) }}{% endfor %}</ul></div>
+{% endblock %}

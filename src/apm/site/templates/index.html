@@ -1,0 +1,31 @@
+{% extends "base.html" %}{% from "_macros.html" import badge %}
+{% block title %}Applications{% endblock %}
+{% block content %}
+<h1>Applications</h1>
+<p class="sub">{{ cat.apps|length }} applications décrites dans le dépôt.</p>
+<div class="kpis">
+  <div class="kpi"><b>{{ cat.apps|length }}</b><span>applications</span></div>
+  <div class="kpi"><b>{{ cat.component_owners|length }}</b><span>composants</span></div>
+  <div class="kpi"><b>{{ cat.interfaces|length }}</b><span>interfaces exposées</span></div>
+  <div class="kpi"><b>{{ v.edges()|length }}</b><span>dépendances inter-applications</span></div>
+  <div class="kpi"><b>{{ v.roadmap()|selectattr('plan.status', 'in', ['planned', 'confirmed'])|list|length }}</b><span>livraisons à venir</span></div>
+  <div class="kpi"><b>{{ counts['error'] }} / {{ counts['warning'] }}</b><span><a href="quality.html">erreurs / alertes</a></span></div>
+</div>
+<input class="filter" data-target="#apps" placeholder="Filtrer : nom, alias, tribe, capacité…">
+<table id="apps">
+<thead><tr><th>Application</th><th>Description</th><th>Propriétaire</th><th>Capacités</th><th>Cycle de vie</th></tr></thead>
+<tbody>
+{% for app in cat.apps.values()|sort(attribute='name') %}
+{% set a = app.application %}
+<tr>
+  <td><a href="apps/{{ app.id }}.html"><b>{{ a.name }}</b></a><br><span class="mono small muted">{{ app.id }}</span>
+  {% if a.aliases %}<br><span class="small muted">{{ a.aliases|join(', ') }}</span>{% endif %}</td>
+  <td>{{ a.summary }}</td>
+  <td>{{ v.unit(a.organisation.owner).name }}</td>
+  <td>{% for c in a.capabilities %}<span class="chip">{{ v.cap(c).name }}</span>{% endfor %}</td>
+  <td>{{ badge(a.lifecycle, LIFECYCLE[a.lifecycle]) }}
+  {% set n = v.by_app[app.id]|rejectattr('severity', 'eq', 'info')|list|length %}{% if n %}<br>{{ badge('warning', n ~ ' constat(s)') }}{% endif %}</td>
+</tr>
+{% endfor %}
+</tbody></table>
+{% endblock %}

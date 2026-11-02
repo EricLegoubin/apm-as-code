@@ -1,0 +1,13 @@
+{% extends "base.html" %}{% from "_macros.html" import app_link %}
+{% block title %}Dépendances{% endblock %}
+{% block content %}
+<h1>Dépendances entre applications</h1>
+<p class="sub">Une flèche va de l'application consommatrice vers l'application qui expose l'interface.</p>
+<pre class="mermaid">{{ v.mermaid_graph() }}</pre>
+<h2>Liste</h2>
+<input class="filter" data-target="#deps" placeholder="Filtrer…">
+<table id="deps"><thead><tr><th>Consommatrice</th><th>Fournisseur</th><th>Interfaces</th></tr></thead><tbody>
+{% for (c, p), names in v.edges().items() %}
+<tr><td>{{ app_link(c, '') }}</td><td>{{ app_link(p, '') }}</td><td>{{ names|unique|join(', ') }}</td></tr>
+{% endfor %}</tbody></table>
+{% endblock %}

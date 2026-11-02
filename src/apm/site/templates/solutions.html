@@ -1,0 +1,13 @@
+{% extends "base.html" %}{% from "_macros.html" import app_link %}
+{% block title %}Solutions{% endblock %}
+{% block content %}
+<h1>Solutions externes</h1>
+<p class="sub">Produits, services et plateformes tiers, et applications qui les utilisent.</p>
+{% set by = v.apps_by_solution() %}
+<table><thead><tr><th>Solution</th><th>Type</th><th>Éditeur</th><th>Utilisée par</th></tr></thead><tbody>
+{% for s in cat.solutions.values()|sort(attribute='name') %}
+<tr id="{{ s.id }}"><td><b>{% if s.url %}<a href="{{ s.url }}">{{ s.name }}</a>{% else %}{{ s.name }}{% endif %}</b><br><span class="mono small muted">{{ s.id }}</span>{% if s.description %}<br><span class="small">{{ s.description }}</span>{% endif %}</td>
+<td>{{ s.type }}</td><td>{{ s.vendor or '' }}</td>
+<td>{% for a, usage in by[s.id] %}{{ app_link(a.id, '') }} <span class="small muted">— {{ usage }}</span><br>{% else %}<span class="muted">aucune</span>{% endfor %}</td></tr>
+{% endfor %}</tbody></table>
+{% endblock %}

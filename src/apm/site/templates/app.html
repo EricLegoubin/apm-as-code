@@ -1,0 +1,108 @@
+{% extends "base.html" %}{% from "_macros.html" import app_link, badge, req_state, findings_table %}
+{% set a = app.application %}
+{% block title %}{{ a.name }}{% endblock %}
+{% block content %}
+<p class="small"><a href="../index.html">Applications</a> › <span class="mono">{{ app.id }}</span></p>
+<h1>{{ a.name }} {{ badge(a.lifecycle, LIFECYCLE[a.lifecycle]) }}</h1>
+<p class="sub">{{ a.summary }}</p>
+
+<div class="cols">
+<div class="panel">
+<dl class="fiche">
+  <dt>Identifiant</dt><dd class="mono">{{ a.id }}</dd>
+  {% if a.aliases %}<dt>Alias</dt><dd>{{ a.aliases|join(', ') }}</dd>{% endif %}
+  {% for r in a.external_refs or [] %}<dt>Réf. {{ r.system }}</dt><dd class="mono">{% if r.url %}<a href="{{ r.url }}">{{ r.ref }}</a>{% else %}{{ r.ref }}{% endif %}</dd>{% endfor %}
+  <dt>Capacités</dt><dd>{% for c in a.capabilities %}<a href="../capabilities.html#{{ c }}">{{ v.cap_path(c) }}</a><br>{% endfor %}</dd>
+  {% for role, label in ROLES.items() %}
+  <dt>{{ label }}</dt><dd><a href="../organisation.html#{{ a.organisation[role] }}">{{ v.unit(a.organisation[role]).name }}</a></dd>
+  {% endfor %}
+  {% for l in a.links or [] %}<dt>{{ l.label }}</dt><dd><a href="{{ l.url }}">{{ l.url }}</a></dd>{% endfor %}
+  <dt>Source</dt><dd class="mono small">{{ app.dir }}/</dd>
+</dl>
+</div>
+<div class="panel">
+{% if a.description %}<h3 style="margin-top:0">Description</h3><p style="white-space:pre-line;margin:0">{{ a.description }}</p>{% endif %}
+{% set deps = cat.interface_dependencies(app.id)|sort %}{% set users = v.used_by(app.id) %}
+<h3>Dépend de</h3><p>{% for d in deps %}{{ app_link(d, root) }}{{ ', ' if not loop.last }}{% else %}<span class="muted">aucune application</span>{% endfor %}</p>
+<h3>Utilisée par</h3><p>{% for d in users %}{{ app_link(d, root) }}{{ ', ' if not loop.last }}{% else %}<span class="muted">aucune application</span>{% endfor %}</p>
+</div>
+</div>
+
+{% if deps or users %}
+<pre class="mermaid">{{ v.mermaid_graph(app.id) }}</pre>
+{% endif %}
+
+<h2>Composition</h2>
+{% set current = v.current_release(app) %}
+{% if app.components %}
+<table>
+<thead><tr><th>Composant</th><th>Type</th><th>Version en production</th><th>Description</th></tr></thead>
+<tbody>
+{% for c in app.components %}
+<tr><td><b>{{ c.name }}</b><br><span class="mono small muted">{{ c.id }}</span>{% if c.repository %} · <a class="small" href="{{ c.repository }}">dépôt</a>{% endif %}</td>
+<td>{{ c.type }}</td><td class="mono">{{ (current.components[c.id] if current and c.id in current.components) or '—' }}</td>
+<td>{{ c.description or '' }}</td></tr>
+{% endfor %}
+</tbody></table>
+{% else %}<p class="muted">Aucun composant déclaré.</p>{% endif %}
+{% set sols = (app.composition or {}).get('solutions', []) %}
+{% if sols %}
+<h3>Solutions externes</h3>
+<table><thead><tr><th>Solution</th><th>Éditeur</th><th>Usage</th></tr></thead><tbody>
+{% for s in sols %}{% set sol = cat.solutions.get(s.solution, {}) %}
+<tr><td><a href="../solutions.html#{{ s.solution }}">{{ sol.name or s.solution }}</a></td><td>{{ sol.vendor or '' }}</td><td>{{ s.usage }}</td></tr>
+{% endfor %}</tbody></table>
+{% endif %}
+
+<h2>Interfaces exposées <span class="muted small">— appels et flux entrants</span></h2>
+{% if app.provides %}
+<table><thead><tr><th>Interface</th><th>Type</th><th>Composant</th><th>Consommateurs</th></tr></thead><tbody>
+{% for i in app.provides %}
+<tr><td><b>{{ i.name }}</b><br><span class="mono small muted">{{ i.id }}</span>{% if i.description %}<br><span class="small">{{ i.description }}</span>{% endif %}</td>
+<td>{{ i.type }}{% if i.protocol %}<br><span class="small muted">{{ i.protocol }}</span>{% endif %}</td>
+<td class="mono small">{{ i.component }}</td>
+<td>{% for cid, c in cat.consumers.get(i.id, []) %}{{ app_link(cid, root) }} <span class="small muted">({{ c.purpose or c.component }})</span><br>{% endfor %}
+{% for e in i.external_consumers or [] %}{{ badge('neutral', 'externe') }} {{ e }}<br>{% endfor %}
+{% if not cat.consumers.get(i.id) and not i.external_consumers %}<span class="muted">aucun</span>{% endif %}</td></tr>
+{% endfor %}</tbody></table>
+{% else %}<p class="muted">Aucune interface exposée.</p>{% endif %}
+
+<h2>Interfaces consommées <span class="muted small">— appels et flux sortants</span></h2>
+{% if app.consumes %}
+<table><thead><tr><th>Interface</th><th>Fournisseur</th><th>Composant</th><th>Usage</th></tr></thead><tbody>
+{% for c in app.consumes %}
+{% if c.interface %}{% set p = cat.interfaces.get(c.interface) %}
+<tr><td><b>{{ p[1].name if p else c.interface }}</b><br><span class="mono small muted">{{ c.interface }}</span></td>
+<td>{{ app_link(p[0], root) if p else badge('error', 'inconnue') }}</td>
+{% else %}
+<tr><td><b>{{ c.external }}</b> {{ badge('neutral', 'externe · ' ~ c.direction) }}<br><span class="small muted">{{ c.type }}{% if c.protocol %} · {{ c.protocol }}{% endif %}</span></td>
+<td class="muted">tiers externe</td>
+{% endif %}
+<td class="mono small">{{ c.component }}</td><td>{{ c.purpose or '' }}</td></tr>
+{% endfor %}</tbody></table>
+{% else %}<p class="muted">Aucune interface consommée.</p>{% endif %}
+
+<h2>Versions et planning</h2>
+{% set rows = v.releases(app) %}
+{% if rows %}
+<table>
+<thead><tr><th>Version</th><th>Mise à disposition</th><th>Composants</th><th>Dépendances</th></tr></thead><tbody>
+{% for r in rows %}
+<tr class="{{ 'issue' if r.issue }}">
+<td><b class="mono">{{ r.release.version }}</b>{% if r.release.summary %}<br><span class="small">{{ r.release.summary }}</span>{% endif %}</td>
+<td>{% if r.plan %}{{ r.plan.date }}<br>{{ badge(r.plan.status, STATUS[r.plan.status]) }}{% else %}{{ badge('info', 'non planifiée') }}{% endif %}</td>
+<td class="small">{% for cid, ver in r.release.components.items() %}<span class="mono">{{ cid }}</span> {{ ver }}<br>{% endfor %}</td>
+<td class="small">{% for q in r.requires %}{{ app_link(q.owner, root) if q.kind == 'application' else '' }}{% if q.kind == 'component' %}<span class="mono">{{ q.target }}</span> <span class="muted">({{ v.app_name(q.owner) }})</span>{% endif %} <span class="mono">{{ q.constraint }}</span> {{ req_state(q) }}<br>{% else %}<span class="muted">—</span>{% endfor %}</td>
+</tr>
+{% endfor %}</tbody></table>
+<h3>Séquences des composants</h3>
+<table><thead><tr><th>Composant</th><th>Versions (ordre de la séquence)</th></tr></thead><tbody>
+{% for cid, seq in app.component_sequences.items() %}
+<tr><td class="mono">{{ cid }}</td><td>{% for cr in seq %}<span class="mono"><b>{{ cr.version }}</b></span>{% if cr.summary %} <span class="small">— {{ cr.summary }}</span>{% endif %}
+{% for q in cr.requires or [] %} <span class="small muted">requiert <span class="mono">{{ q.component }} {{ q.version }}</span></span>{% endfor %}{{ ' → ' if not loop.last }}<br>{% endfor %}</td></tr>
+{% endfor %}</tbody></table>
+{% else %}<p class="muted">Aucune version déclarée.</p>{% endif %}
+
+{% set fs = v.by_app[app.id] %}
+{% if fs %}<h2>Constats</h2>{{ findings_table(fs) }}{% endif %}
+{% endblock %}

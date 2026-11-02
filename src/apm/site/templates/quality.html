@@ -1,0 +1,16 @@
+{% extends "base.html" %}{% from "_macros.html" import badge, findings_table %}
+{% block title %}Contrôles{% endblock %}
+{% block content %}
+<h1>Contrôles</h1>
+<p class="sub">{{ counts['error'] }} erreur(s), {{ counts['warning'] }} alerte(s), {{ counts['info'] }} information(s).</p>
+{% if v.findings %}
+<input class="filter" data-target="#findings" placeholder="Filtrer : règle, application, fichier…">
+<div id="findings">{{ findings_table(v.findings) }}</div>
+{% else %}<div class="panel">Aucun constat.</div>{% endif %}
+<h2>Règles appliquées</h2>
+<table><thead><tr><th>Règle</th><th>Sévérité</th><th>Intitulé</th><th>Constats</th></tr></thead><tbody>
+{% for r in RULES.values()|sort(attribute='id') %}
+{% set n = v.findings|selectattr('rule', 'eq', r.id)|list|length %}
+<tr><td class="mono">{{ r.id }}</td><td>{{ badge(r.severity, r.severity) }}</td><td>{{ r.title }}</td><td>{{ n or '' }}</td></tr>
+{% endfor %}</tbody></table>
+{% endblock %}

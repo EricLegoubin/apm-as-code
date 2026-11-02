@@ -1,0 +1,20 @@
+{% macro app_link(id, root) -%}
+{% if id in cat.apps %}<a href="{{ root }}apps/{{ id }}.html">{{ v.app_name(id) }}</a>{% else %}<span class="muted">{{ id }}</span>{% endif %}
+{%- endmacro %}
+{% macro badge(kind, label) -%}<span class="badge b-{{ kind }}">{{ label }}</span>{%- endmacro %}
+{% macro req_state(r) -%}
+{% if r.state == 'ok' %}{{ badge('ok', 'dispo ' ~ r.earliest.isoformat()) }}
+{% elif r.state == 'late' %}{{ badge('late', 'en retard : ' ~ r.earliest.isoformat()) }}
+{% elif r.state == 'unplanned' %}{{ badge('unplanned', 'non planifiée') }}
+{% else %}{{ badge('ko', 'aucune version') }}{% endif %}
+{%- endmacro %}
+{% macro findings_table(items) -%}
+<table>
+<thead><tr><th>Sévérité</th><th>Règle</th><th>Lieu</th><th>Constat</th></tr></thead>
+<tbody>
+{% for f in items %}
+<tr><td>{{ badge(f.severity, f.severity) }}</td><td class="mono" title="{{ RULES[f.rule].title }}">{{ f.rule }}</td>
+<td class="mono small">{{ f.file }}{% if f.line %}:{{ f.line }}{% endif %}</td><td>{{ f.message }}</td></tr>
+{% endfor %}
+</tbody></table>
+{%- endmacro %}

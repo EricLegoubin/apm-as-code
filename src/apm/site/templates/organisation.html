@@ -1,0 +1,16 @@
+{% extends "base.html" %}{% from "_macros.html" import app_link %}
+{% block title %}Organisation{% endblock %}
+{% block content %}
+<h1>Organisation</h1>
+<p class="sub">Applications par unité et par rôle.</p>
+{% set by = v.apps_by_unit() %}
+{% macro node(n) %}
+<li id="{{ n.item.id }}"><b>{{ n.item.name }}</b> <span class="small muted">{{ n.item.type }}{% if n.item.contact %} · {{ n.item.contact }}{% endif %}</span>
+{% for role, label in ROLES.items() %}{% if by[n.item.id][role] %}
+<div class="apps small">{{ label }} : {% for a in by[n.item.id][role]|sort(attribute='name') %}{{ app_link(a.id, '') }}{{ ', ' if not loop.last }}{% endfor %}</div>
+{% endif %}{% endfor %}
+{% if n.children %}<ul class="tree">{% for c in n.children %}{{ node(c) }}{% endfor %}</ul>{% endif %}
+</li>
+{% endmacro %}
+<div class="panel"><ul class="tree root">{% for n in v.tree(cat.units) %}{{ node(n) }}{% endfor %}</ul></div>
+{% endblock %}
